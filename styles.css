@@ -54,10 +54,11 @@ svg {
   top: 9px;
 }
 
-#legend {
-  /* font-size: small;
-  font-style: italic;
-  cursor: pointer; */
+.legendText {
+  font-size: 15px;
+  border: "2px solid red";
+  font-weight: 800;
+  /* text-align: center; */
 }
 
 footer {

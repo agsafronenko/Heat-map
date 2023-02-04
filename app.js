@@ -46,8 +46,8 @@ req.onload = () => {
   const yScale = d3.scaleBand();
   yScale.domain([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]).range([height - padding, padding]);
 
-  let minTemp = dataset.baseTemperature + d3.min(dataset.monthlyVariance, (d) => d.variance);
-  let maxTemp = dataset.baseTemperature + d3.max(dataset.monthlyVariance, (d) => d.variance);
+  let minTemp = Math.round((dataset.baseTemperature + d3.min(dataset.monthlyVariance, (d) => d.variance)) * 10) / 10;
+  let maxTemp = Math.round((dataset.baseTemperature + d3.max(dataset.monthlyVariance, (d) => d.variance)) * 10) / 10;
   const colorScale = d3.scaleLinear().domain([minTemp, maxTemp]).range([1, 0]);
 
   // ------------------Bar Chart-----------------
@@ -129,20 +129,39 @@ req.onload = () => {
 
   const legend = svg.append("g").attr("id", "legend");
 
-  //   legend
-  //     .append("text")
-  //     .text("Legend")
-  //     .attr("x", padding)
-  //     .attr("y", height - padding / 2)
-  //     .style("text-anchor", "start");
+  const legendTempArr = [minTemp];
+  for (let i = minTemp; i < maxTemp; i++) {
+    let newBound = Math.floor(minTemp + i);
+    if (newBound > maxTemp) {
+      legendTempArr.push(maxTemp);
+      break;
+    } else {
+      legendTempArr.push(newBound);
+    }
+  }
 
-  //   legend
-  //     .append("rect")
-  //     .style("fill", "red")
-  //     .attr("width", "20px")
-  //     .attr("height", "20px")
-  //     .attr("x", padding)
-  //     .attr("y", height - padding / 2);
+  let rectSide = 35;
+
+  legendTempArr.map((temp, ind) => {
+    legend
+      .append("rect")
+      .attr("width", rectSide)
+      .attr("height", rectSide)
+      .attr("x", padding + ind * rectSide)
+      .attr("y", height - padding / 2)
+      .style("fill", d3.interpolateRdYlBu(colorScale(temp)));
+  });
+
+  legendTempArr.map((temp, ind, arr) => {
+    legend
+      .append("text")
+      .attr("class", "legendText")
+      .text(temp)
+      .attr("x", padding + ind * rectSide + rectSide / 2)
+      .attr("y", height - padding / 2 + rectSide / 2 + 4)
+      .style("text-anchor", "middle")
+      .style("fill", ind === 0 || ind === arr.length - 1 ? "white" : " black");
+  });
 
   //------------Footer--------------
 
