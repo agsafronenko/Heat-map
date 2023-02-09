@@ -165,5 +165,5 @@ req.onload = () => {
 
   //------------Footer--------------
 
-  d3.select("body").append("footer").text("This Bar Chart was created using: HTML, CSS, JavaScript and D3 svg-based visualization library");
+  d3.select("body").append("footer").text("This Heat Map was created using: HTML, CSS, JavaScript and D3 svg-based visualization library");
 };
