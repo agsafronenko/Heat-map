@@ -50,7 +50,7 @@ req.onload = () => {
   let maxTemp = Math.round((dataset.baseTemperature + d3.max(dataset.monthlyVariance, (d) => d.variance)) * 10) / 10;
   const colorScale = d3.scaleLinear().domain([minTemp, maxTemp]).range([1, 0]);
 
-  // ------------------Bar Chart-----------------
+  // ------------------Heat map-----------------
 
   let tooltip = d3.select("body").append("div").attr("id", "tooltip");
 
